@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="opendial.inference.InferenceLargeScaleTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-05-04T00:10:08" hostname="iMac-de-Amine.local" time="0.509">
+  <properties/>
+  <testcase name="testNetwork" classname="opendial.inference.InferenceLargeScaleTest" time="0.509"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[mai 04, 2016 2:10:09 AM opendial.common.InferenceChecks showPerformance
+INFOS: Average time for naive inference: 0.2157321357142857 ms.
+mai 04, 2016 2:10:09 AM opendial.common.InferenceChecks showPerformance
+INFOS: Average time for variable elimination: 0.11478760714285714 ms.
+mai 04, 2016 2:10:09 AM opendial.common.InferenceChecks showPerformance
+INFOS: Average time for importance sampling: 2.3875728428571428 ms. (with 0% of repeats)
+]]></system-err>
+</testsuite>

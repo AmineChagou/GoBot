@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain>
+	<!-- Dialogue management models, composed of three models: an action selection 
+		model to find the best system action to execute, a transition model that 
+		specifies how the selected action modifies the current dialogue state, and 
+		a prediction model for the prior distributions on the destinations, 
+		departures and next user dialogue act. -->
+
+	<model trigger="current_step">
+		<!-- This model specifies the utilities of various system actions, such 
+			as clarification requests (repetitions and confirmations) and 
+			grounding actions. -->
+
+	
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="Chat" />
+					<if var="a_u" relation="!=" value="None" />
+				</condition>
+				<effect util="1">
+					<set var="a_m" value="Chat" />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- If the current step is to ask for the destination, specifies the utilities 
+			of a confirmation request or a grounding action using the current value of 
+			the "Destination" slot -->
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="SellPizza" />
+				</condition>
+				<effect util="5">
+					<set var="a_m" value="ActivateSellDomain" />
+				</effect>
+			</case>
+		</rule>
+		
+				<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="Quit" />
+				</condition>
+				<effect util="5">
+					<set var="a_m" value="Ground(Close)" />
+				</effect>
+			</case>
+		</rule>
+		<rule>
+			<case>
+				<condition>
+					<if var="a_u" relation="!=" value="None" />
+					<if var="current_step" value="Chat" />
+				</condition>
+				<effect util="0.1">
+					<set var="a_m" value="Chat" />
+				</effect>
+			</case>
+		</rule>
+		<!-- Records the next-to-last system action -->
+		<rule>
+			<case>
+				<effect>
+					<set var="a_m-prev" value="{a_m}" />
+				</effect>
+			</case>
+		</rule>
+
+	</model>
+	
+	
+
+
+	<model trigger="a_m">
+
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(Close)" />
+				</condition>
+				<effect prob="1">
+					<set var="a_u" value="None"/>
+					<set var="u_u_c" value="None"/>
+					<set var="u_m" value="None"/>
+					<set var="a_m" value="Close" />
+				</effect>
+			</case>
+		</rule>
+
+
+
+	</model>
+	
+	<model trigger="a_m,current_step">
+		<!-- Specifies the prior distributions for the destinations, departures and
+		responses to yes/no questions -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="(AskRepeat|None)"/>
+					<if var="a_u" relation="!=" value="None"/>
+					<if var="a_u" relation="!=" value="[Other]"/>
+				</condition>
+				<effect prob="0.3">
+					<set var="a_u^p" value="{a_u}"/>
+				</effect>
+			</case>
+			<case>
+				<condition operator="or">
+					<if var="a_m" value="Confirm(*)"/>
+					<if var="current_step" value="UserRequest"/>
+					<if var="current_step" value="askRecommandation"/>
+					<if var="current_step" value="UserChoice"/>
+					<if var="current_step" value="ActivateSlaveBot"/>
+					<if var="current_step" value="Resume"/>
+				</condition>
+				<effect prob="0.15">
+					<set var="a_u^p" value="[Confirm]"/>
+				</effect>
+				<effect prob="0.25">
+					<set var="a_u^p" value="[Disconfirm]"/>
+				</effect>
+			</case>
+			<case>
+				<effect>
+					<set var="a_u^p" value="None"/>
+				</effect>
+			</case>
+		</rule>
+		
+		
+	</model>
+
+</domain>

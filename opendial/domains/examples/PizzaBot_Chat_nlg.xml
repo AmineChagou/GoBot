@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain>
+	<!-- Natural language generation models. The domain can produce new system 
+		utterance either when the current step is changed, or when a new system action 
+		is selected. -->
+
+
+	<model trigger="current_step">
+		<!--Model producing new system utterances when the current step is moved 
+			to a new step. -->
+
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="Chat" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="Hi i am a Pizza Bot at your service " />
+				</effect>
+			</case>
+		</rule>
+
+	
+
+	</model>
+
+
+	<model trigger="a_m">
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="BotResponse({response})" />
+				</condition>
+				<effect util="5">
+					<set var="u_m" value="{response}" />
+				</effect>
+			</case>
+		</rule>
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(Close)" />
+				</condition>
+				<effect util="5">
+					<set var="u_m" value="See you soon my friend !" />
+				</effect>
+			</case>
+		</rule>
+		
+	</model>
+
+</domain>

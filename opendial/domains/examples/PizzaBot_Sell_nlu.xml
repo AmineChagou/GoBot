@@ -1,0 +1,238 @@
+ 
+<domain>
+	<!-- Natural language understanding models, constituted of two models: one model to recognise
+	the user dialogue act. from the utterance, and one model to update the slots in accordance with 
+	this dialogue act.
+
+	The user dialogue act associated with each utterance is represented here as a list of 
+	basic acts (such as "Confirm" or "Inform(...)").  This representation allows us to 
+	capture the fact that an utterance such as "Yes, 3 tickets" contains both a confirmation
+	and a new information about the number of tickets. 
+	-->
+
+	<model trigger="u_u_c">
+		<!-- This model takes the raw user utterance as input, and outputs the corresponding 
+	  dialogue acts from the user. This model uses simple shallow patterns to extract 
+	  domain-specific information (such as airports or dates) from the utterance. -->
+	   <!-- launch the reservation process -->
+	  <rule>
+			<case>
+				<condition>
+						<if var="UserReq" relation="in"
+						value="[Pizza,Hamburger,maragherita,bolognaise,eat]" />
+				<if var="u_u_c" relation="contains" value="(buy a|order a|book a|have a|buy|order|book|have|want a|want to)? {UserReq}" />
+				</condition>
+				<effect>
+					<set var="current_step" value="PizzaChoice" />
+				</effect>
+			</case>
+		</rule>
+		<!-- Extracts booking information related to the departure or destination  -->
+		<rule>
+			<case>
+				<condition>
+					<if var="PizzaChoice" relation="in"
+						value="[Margheritta,forestiere,cannibale]" />
+					<if var="u_u_c" relation="contains" value="(I will take a|I will have a|I will order a|*)? {PizzaChoice}" />
+				</condition>
+				<effect>
+					<set var="a_u" value="Inform(PizzaChoice,{PizzaChoice})" exclusive="false"/>
+				</effect>
+			</case>
+		</rule>
+
+		<!-- Extracts booking information related to the flight dates.  -->
+		<rule>
+			<case>
+				<condition>
+					<if var="WhichDrinks" relation="in"
+						value="[Water,Coke,Pepsi]" />
+					<if var="u_u_c" relation="contains" value="(I will take a|I will have a|I will order a|*)? {WhichDrinks}" />
+				</condition>
+				<effect>
+					<set var="a_u" value="Inform(WhichDrinks,{WhichDrinks})" exclusive="false"/>
+				</effect>
+			</case>
+		</rule>
+
+		<!-- Extracts booking information related to the number of tickets.  -->
+		<rule>
+			<case>
+				<condition>
+					<if var="u_u_c" relation="contains" value="(1|one|a single) (person)?" />
+				</condition>
+				<effect>
+					<set var="a_u" value="Inform(NbPersons,1)" exclusive="false"/>
+				</effect>
+			</case>
+				<case>
+				<condition>
+					<if var="u_u_c" relation="contains" value="(2|two) (persons)?" />
+				</condition>
+				<effect>
+					<set var="a_u" value="Inform(NbPersons,2)" exclusive="false"/>
+				</effect>
+			</case>
+				<case>
+				<condition>
+					<if var="u_u_c" relation="contains" value="(3|three) (persons)?" />
+				</condition>
+				<effect>
+					<set var="a_u" value="Inform(NbPersons,3)" exclusive="false"/>
+				</effect>
+			</case>
+				<case>
+				<condition>
+					<if var="u_u_c" relation="contains" value="(4|four) (persons)?" />
+				</condition>
+				<effect>
+					<set var="a_u" value="Inform(NbPersons,4)" exclusive="false"/>
+				</effect>
+			</case>
+		</rule>
+
+		<!-- Extracts confirmations and disconfirmations -->
+		<rule>
+			<case>
+				<condition>
+					<if var="u_u_c" relation="contains" value="(yes|correct|exactly|sure|right)" />
+				</condition>
+				<effect>
+					<set var="a_u" value="Confirm" exclusive="false"/>
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="u_u_c" relation="contains" value="(no|nope|wrong)" />
+				</condition>
+				<effect>
+					<set var="a_u" value="Disconfirm" exclusive="false"/>
+				</effect>
+			</case>
+		</rule>
+
+		<!-- Rule of lower priority that associates the dialogue act to "Other"
+		    if nothing else is recognised. -->
+		<rule priority="2">
+			<case>
+				<condition>
+					<if var="u_u_c" relation="!=" value="None" />
+				</condition>
+				<effect>
+					<set var="a_u" value="Other" exclusive="false"/>
+				</effect>
+			</case>
+		</rule>
+
+	</model>
+	
+	
+	<model trigger="a_u">
+		<!-- This model take the dialogue act fom the user and uses it to fill the corresponding
+	  slots (departure, destination, flight dates, number of tickets, etc.). -->
+	  
+	  
+		<!-- Fills the slots in accordance with the information in the dialogue act -->
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="PizzaChoice" />
+					<if var="a_u" relation="contains" value="Inform(PizzaChoice,{PizzaChoice})" />
+				</condition>
+				<effect>
+					<set var="PizzaChoice" value="{PizzaChoice}" />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="current_step" value="WhichDrinks" />
+					<if var="a_u" relation="contains" value="Inform(WhichDrinks,{WhichDrinks})" />
+				</condition>
+				<effect>
+					<set var="WhichDrinks" value="{WhichDrinks}" />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="current_step" value="NbPersons" />
+					<if var="a_u" relation="contains" value="Inform(NbPersons,{NbPersons})" />
+				</condition>
+				<effect>
+					<set var="NbPersons" value="{NbPersons}" />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="current_step" value="DisplayPrice" />
+					<if var="a_u" relation="contains" value="Inform(TotalPrice,{Price})" />
+				</condition>
+				<effect>
+					<set var="TotalPrice" value="{Price}" />
+				</effect>
+			</case>
+		</rule>
+		  <rule>
+           <case>
+                <condition>
+                     <if var="current_step" value="Chat" />
+                     <if var="a_u"  value="Other" />
+                </condition>
+                <effect>
+                      <set var="a_m" value="Chat" />
+                </effect>
+          </case>
+      </rule>
+
+		<!-- If the last system action is a confirmation request and the user confirms the
+		information, also update the corresponding slot-->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Confirm({Slot},{Value})" />
+					<if var="a_u" relation="contains" value="Confirm" />
+				</condition>
+				<effect>
+					<set var="{Slot}" value="{Value}" />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="a_m" value="Confirm({Slot},{Value})" />
+					<if var="a_u" relation="contains" value="Disconfirm" />
+				</condition>
+				<effect>
+					<set var="{Slot}" value="None" />
+				</effect>
+			</case>
+		</rule>
+		
+		<!-- Once the information is grounded, we assume the value won't change-->
+		<rule>
+			<case>
+				<condition operator="or">
+					<if var="a_m" value="Ground({Slot},{Value})" />
+					<if var="a_m-prev" value="Ground({Slot},{Value})" />
+				</condition>
+				<effect>
+					<set var="{Slot}" value="{Value}" />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- Catch-all rule that simply keeps the slots to their current value
+		in the absence of any other new information. -->
+		<rule priority="2">
+			<case>
+				<effect>
+					<set var="PizzaChoice" value="None" />
+					<set var="PizzaChoice" value="{PizzaChoice}" />
+					<set var="Drinks" value="{Drinks}" />
+					<set var="WhichDrinks" value="{WhichDrinks}" />
+					<set var="NbPersons" value="{NbPersons}" />
+				</effect>
+			</case>
+		</rule>
+
+	</model>
+	
+	</domain>

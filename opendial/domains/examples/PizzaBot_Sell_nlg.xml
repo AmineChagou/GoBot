@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain>
+	<!-- Natural language generation models. The domain can produce new system 
+		utterance either when the current step is changed, or when a new system action 
+		is selected. -->
+
+
+	<model trigger="current_step">
+		<!--Model producing new system utterances when the current step is moved 
+			to a new step. -->
+
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="Chat" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="Hi i am a Pizza Bot at your service " />
+				</effect>
+			</case>
+		</rule>
+		<!-- Asks for the destination -->
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="PizzaChoice" />
+				</condition>
+				<effect util="2">
+					<set var="u_m" value="Which Pizza do you want to order: Margheritta , forestiere, cannibale ?" />
+					<set var="a_m" value="None" />
+			    </effect>
+			</case>
+		</rule>
+
+		<!-- Asks for the departure -->
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="Drinks" />
+				</condition>
+				<effect util="2">
+					<set var="u_m" value="do you want to order a drink ?" />
+					<set var="a_m" value="None" />
+				</effect>
+			</case>
+		</rule>
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="WhichDrinks" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="Ok, Which drink you want to order: water, coke , pepsi ?" />
+				</effect>
+			</case>
+		</rule>
+
+	 <rule>
+			<case>
+				<condition>
+					<if var="current_step" value="NbPersons" />
+				</condition>
+				<effect util="2">
+					<set var="u_m" value="For how many persons should I order: 4 persons, 2 persons ?  " />
+					<set var="a_m" value="None" />
+				</effect>
+			</case>
+		</rule>
+		<!-- Asks for the last confirmation -->
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="LastConfirm" />
+					<if var="Drinks" value="NoDrinks" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="You are ordering a {PizzaChoice} Pizza
+					for {NbPersons} persons, for a total cost of  EUR. 
+					Shall I confirm your order?" />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="current_step" value="LastConfirm" />
+					<if var="Drinks" value="Drinks" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="You are ordering a {PizzaChoice} Pizza and {WhichDrinks} 
+					for {NbPersons} persons, for a total cost of  EUR. 
+					Shall I confirm your order?" />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- Asks whether to order additional tickets -->
+		<rule>
+			<case>
+				<condition operator="or">
+					<if var="current_step" value="Final" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="Do you want to buy  anything else from Domino's Pizza?" />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- Closes the interaction -->
+		
+
+
+	</model>
+
+
+	<model trigger="a_m">
+		<!-- Model producing new system utterances related to the last system action -->
+
+		<!-- grounding the pizza choice -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(PizzaChoice,{PizzaChoice})" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="excellent choice {PizzaChoice}." />
+				</effect>
+			</case>
+		</rule>
+
+
+		<!-- grounding the number of persons -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(NbPersons,{Number})" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="OK, a pizza for {Number} persons." />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- grounding the return date -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(NoDrink)" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="OK, no drinks." />
+				</effect>
+			</case>
+		</rule>
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(Drink)" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="One second ... looking for available drinks ...." />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- confirmation request for the destination -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Confirm(PizzaChoice,{PizzaChoice})" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="You want to order a {PizzaChoice} Pizza. Is that correct?" />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- confirmation request for the departure -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Confirm(WhichDrinks,{WhichDrinks})" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="You want to add {WhichDrinks} to your order . Is that correct?" />
+				</effect>
+			</case>
+		</rule>
+
+	
+		<!-- confirmation request for the number of tickets -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Confirm(NbPersons,{Number})" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="You want to order a Pizza for {Number} persons. Is that correct?" />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- repetition request -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="AskRepeat" />
+					<if var="current_step" value="PizzaChoice" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="Sorry, could you repeat? The available pizzas are Margheritta , forestiere, cannibale." />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="a_m-prev" value="AskRepeat" />
+					<if var="a_m" value="AskRepeat" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="Sorry I couldn't understand you. Could you please repeat one more time?" />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="a_m" value="AskRepeat" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="Sorry, could you repeat?" />
+				</effect>
+			</case>
+		</rule>
+		<!-- bot response-->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="BotResponse({response})" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="{response}" />
+				</effect>
+			</case>
+		</rule>
+		<!-- Making a price offer -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="DisplayPrice({Price})" />
+					<if var="Drinks" value="NoDrinks" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="A {PizzaChoice} for  {NbPersons} persons
+					cost {TotalPrice} EUR . Do you want me to order ?" />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="a_m" value="DisplayPrice({Price})" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="A {PizzaChoice} with {WhichDrinks} for  {NbPersons} persons
+					cost {TotalPrice} EUR . Do you want me to order ?" />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- Grounding the cancellation -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(Cancel)" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="OK, your order is now cancelled." />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- Grounding the booking -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(Order)" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="OK, your pizza is now ordered and will be sent to you shortly." />
+				</effect>
+			</case>
+		</rule>
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(Close)" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="Thank you for your order with DominosPizza and see you soon!" />
+				</effect>
+			</case>
+		</rule>
+		
+	</model>
+
+</domain>

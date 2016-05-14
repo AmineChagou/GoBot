@@ -1,0 +1,38 @@
+<html xmlns:string="xalan://java.lang.String" xmlns:lxslt="http://xml.apache.org/xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Unit Test Results: All Failures</title>
+<link rel="stylesheet" type="text/css" title="Style" href="stylesheet.css">
+</head>
+<body onload="open('allclasses-frame.html','classListFrame')">
+<h1>Unit Test Results.</h1>
+<table width="100%">
+<tr>
+<td align="left"></td><td align="right">Designed for use with <a href="http://www.junit.org/">JUnit</a> and <a href="http://ant.apache.org/">Ant</a>.</td>
+</tr>
+</table>
+<hr size="1">
+<h2>All Failures</h2>
+<table class="details" border="0" cellpadding="5" cellspacing="2" width="95%">
+<tr valign="top">
+<th>Class</th><th>Name</th><th>Status</th><th width="80%">Type</th><th nowrap>Time(s)</th>
+</tr>
+<tr valign="top" class="Failure">
+<td><a href="org/apache/ivy/core/report/46_ResolveReportTest.html">ResolveReportTest</a></td><td><a name="testFixedMdMultipleExtends"></a><a href="org/apache/ivy/core/report/46_ResolveReportTest.html#testFixedMdMultipleExtends">testFixedMdMultipleExtends</a></td><td>Failure</td><td>N/A<br>
+<br>
+<code>junit.framework.AssertionFailedError<br>	at org.apache.ivy.core.report.ResolveReportTest.checkFixedMdDependency(ResolveRepoortTest.java:82)<br>	at org.apache.ivy.core.report.ResolveReportTest.tesstFixedMdMultipleExtends(ResolveReportTest.java:151)<br>
+</code></td><td>0.070</td>
+</tr>
+<tr valign="top" class="Failure">
+<td><a href="org/apache/ivy/plugins/parser/xml/93_XmlModuleDescriptorWriterTest.html">XmlModuleDescriptorWriterTest</a></td><td><a name="testExtraInfosFromMaven"></a><a href="org/apache/ivy/plugins/parser/xml/93_XmlModuleDescriptorWriterTest.html#testExtraInfosFromMaven">testExtraInfosFromMaven</a></td><td>Failure</td><td>expected:&lt;...properties__commons.[collections.version&gt;1.0.5&lt;/m:properties__commons.collections.version&gt;
+		&lt;m:properties__commons.logging.version&gt;1.0.4&lt;/m:properties__commons.logging].version&gt;
+		&lt;m:depen...&gt; but was:&lt;...properties__commons.[logging.version&gt;1.0.4&lt;/m:properties__commons.logging.version&gt;
+		&lt;m:properties__commons.collections.version&gt;1.0.5&lt;/m:properties__commons.collections].version&gt;
+		&lt;m:depen...&gt;<br>
+<br>
+<code>junit.framework.ComparisonFailure: expected:&lt;...properties__commons.[collections.version&gt;1.0.5&lt;/m:properties__commmons.collections.version&gt;<br>		&lt;m:properties__commons.logging.version&gt;1.0.4&lt;/m:properties__commons.logging].version&gt;<br>		&lt;m:depen...&gt; but was:&lt;...properties__commons.[logging.versionn&gt;1.0.4&lt;/m:properties__commons.logging.version&gt;<br>		&lt;m:properties__commons.collections.version&gt;1.0.5&lt;/m:properties__commons.collections].version&gt;<br>		&lt;m:depen...&gt;<br>	at org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorWriterTest.testExtraInfosFromMaven(XmlModuleDescriptorWriterTest.java:158)<br>
+</code></td><td>0.038</td>
+</tr>
+</table>
+</body>
+</html>

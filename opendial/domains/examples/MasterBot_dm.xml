@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain>
+	<!-- Dialogue management models, composed of three models: an action selection 
+		model to find the best system action to execute, a transition model that 
+		specifies how the selected action modifies the current dialogue state, and 
+		a prediction model for the prior distributions on the destinations, 
+		departures and next user dialogue act. -->
+    <!-- action selection model -->
+	<model trigger="current_step">
+		<!-- This model specifies the utilities of various system actions, such 
+			as clarification requests (repetitions and confirmations) and 
+			grounding actions. -->
+
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="Chat" />
+					<if var="a_u" relation="!=" value="None" />
+				</condition>
+				<effect util="1">
+					<set var="a_m" value="Chat" />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- What is the user need ? -->
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="UserRequest" />
+				</condition>
+				<effect util="5">
+					<set var="a_m" value="Ground(UserRequest,{UserReq})" />
+				</effect>
+				<effect util="0.5">
+					<set var="a_m" value="Confirm(UserRequest,{UserReq})" />
+				</effect>
+			</case>
+		</rule>
+
+	   <!-- recommand bots ? -->
+	   
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="Recommandation" />
+				</condition>
+				<effect util="5">
+					<set var="a_m" value="Recommandation" />
+				</effect>
+			</case>
+		</rule>
+
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="UserChoice" />
+				</condition>
+				<effect util="5">
+					<set var="a_m" value="Ground(UserChoice,{choice})" />
+				</effect>
+				<effect util="0.5">
+					<set var="a_m" value="Confirm(UserChoice,{choice})" />
+				</effect>
+			</case>
+		</rule>
+		
+		<!--rule>
+			<case>
+				<condition>
+					<if var="current_step" value="ActivateSlaveBot" />
+				</condition>
+				<effect util="5">
+					<set var="a_m" value="ActivateSelectedBot" />
+				</effect>
+			</case>
+		</rule-->
+		
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="Resume" />
+				</condition>
+				<effect util="5">
+					<set var="a_m" value="ResumeDialogue" />
+				</effect>
+			</case>
+		</rule>
+		
+
+		<!-- Specifies the utility of a repetition request -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_u" relation="!=" value="None" />
+					<if var="current_step" value="(UserRequest|UserChoice)" />
+				</condition>
+				<effect util="0.1">
+					<set var="a_m" value="AskRepeat" />
+				</effect>
+			</case>
+		</rule>
+		<rule>
+			<case>
+				<condition>
+					<if var="a_u" relation="!=" value="None" />
+					<if var="current_step" value="Chat" />
+				</condition>
+				<effect util="0.1">
+					<set var="a_m" value="Chat" />
+				</effect>
+			</case>
+		</rule>
+		<!-- Specifies the "base" utility of all possible actions, in the absence 
+			of any other information (allows to set an implicit threshold on the system 
+			confidence before selecting a particular action). -->
+		<rule>
+			<case>
+				<effect util="-4.5">
+					<set var="a_m" value="Ground(*)" />
+				</effect>
+				<effect util="-0.3">
+					<set var="a_m" value="Confirm(*)" />
+				</effect>
+				<effect util="-0.03">
+					<set var="a_m" value="AskRepeat" />
+				</effect>
+			</case>
+		</rule>
+		
+		
+		<!-- Records the next-to-last system action -->
+		<rule>
+			<case>
+				<effect>
+					<set var="a_m-prev" value="{a_m}" />
+				</effect>
+			</case>
+		</rule>
+
+	</model>
+	 <!-- tansition model -->
+	<model trigger="a_m">
+		<!-- Transition model that specifies how the selection of a particular 
+			system action affects the current dialogue state, in particular the current 
+			step in the dialogue. -->
+		<!--rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Recommandation" />
+				</condition>
+				<effect prob="1">
+					<set var="current_step" value="UserChoice" />
+				</effect>
+			</case>
+		</rule-->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="ActivateSelectedBot" />
+				</condition>
+				<effect prob="1">
+					<set var="current_step" value="ActivateSlaveBot" />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- Moves to the next step if a particular slot has been confirmed -->
+		
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(UserRequest,*)" />
+				</condition>
+				<effect prob="1">
+					<set var="current_step" value="askRecommandation" />
+					<set var="a_m" value="Recommandation"/>
+				</effect>
+			</case>
+						<case>
+				<condition>
+					<if var="a_m" value="Ground(UserChoice,*)" />
+				</condition>
+				<effect prob="1">
+					<set var="a_m" value="ActivateSlaveBot"/>
+					<set var="current_step" value="ActivateSlaveBot" />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(Restart)" />
+				</condition>
+				<effect prob="1">
+					<set var="current_step" value="UserRequest" />
+					<set var="UserRequest" value="None" />
+					<set var="UserChoice" value="None" />
+					<set var="a_u" value="None" />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(Close)" />
+				</condition>
+				<effect prob="1">
+					<set var="current_step" value="Close" />
+				</effect>
+			</case>
+		</rule>
+
+
+		<!-- If the external module produces the system action MakeOffer(particular price),
+		registers the price in a separate variable and moves the current step. -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="AskUserChoice({RecommandedBots})" />
+				</condition>
+				<effect>
+					<set var="RecommandedBots" value="{RecommandedBots}" />
+					<set var="current_step" value="UserChoice" />
+				</effect>
+			</case>
+
+		</rule>
+	</model>
+	 <!-- prediction model -->
+	<model trigger="a_m,current_step">
+		<!-- Specifies the prior distributions for the destinations, departures and
+		responses to yes/no questions -->
+	
+		
+		
+		
+			<!-- Prediction rule on the next user dialogue act (the probabilities
+		are here quite low to account for a range of unexpected responses)   -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="(AskRepeat|None)"/>
+					<if var="a_u" relation="!=" value="None"/>
+					<if var="a_u" relation="!=" value="[Other]"/>
+				</condition>
+				<effect prob="0.3">
+					<set var="a_u^p" value="{a_u}"/>
+				</effect>
+			</case>
+			<case>
+				<condition operator="or">
+					<if var="a_m" value="Confirm(*)"/>
+					<if var="current_step" value="UserRequest"/>
+					<if var="current_step" value="askRecommandation"/>
+					<if var="current_step" value="UserChoice"/>
+					<if var="current_step" value="ActivateSlaveBot"/>
+					<if var="current_step" value="Resume"/>
+				</condition>
+				<effect prob="0.15">
+					<set var="a_u^p" value="[Confirm]"/>
+				</effect>
+				<effect prob="0.25">
+					<set var="a_u^p" value="[Disconfirm]"/>
+				</effect>
+			</case>
+			<case>
+				<effect>
+					<set var="a_u^p" value="None"/>
+				</effect>
+			</case>
+		</rule>
+		
+	</model>
+
+</domain>

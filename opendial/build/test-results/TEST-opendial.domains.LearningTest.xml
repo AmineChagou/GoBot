@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="opendial.domains.LearningTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-05-04T00:10:06" hostname="iMac-de-Amine.local" time="0.31">
+  <properties/>
+  <testcase name="testIS2013" classname="opendial.domains.LearningTest" time="0.31"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

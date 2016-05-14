@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="opendial.modules.ConnectorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-05-04T00:10:09" hostname="iMac-de-Amine.local" time="0.625">
+  <properties/>
+  <testcase name="remoteConnection" classname="opendial.modules.ConnectorTest" time="0.625"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[mai 04, 2016 2:10:09 AM opendial.DialogueSystem displayComment
+INFOS: Connected to 192.168.1.44:55553
+mai 04, 2016 2:10:09 AM opendial.DialogueSystem displayComment
+INFOS: Connected to 192.168.1.44:55554
+]]></system-err>
+</testsuite>

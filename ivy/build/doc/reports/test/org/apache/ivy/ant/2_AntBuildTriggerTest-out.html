@@ -1,0 +1,38 @@
+<html xmlns:string="xalan://java.lang.String" xmlns:lxslt="http://xml.apache.org/xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Standard Output from AntBuildTriggerTest</title>
+</head>
+<body>
+<pre>EMMA: collecting runtime coverage data ...
+:: loading settings :: file = test/triggers/ant-build/ivysettings.xml
+DEPRECATED: 'defaultCache' is deprecated, use 'caches[@defaultCacheDir]' instead (file:/Users/aminechagou/Documents/workspace/GoBot/ivy/test/triggers/ant-build/ivysettings.xml)
+:: resolving dependencies :: apache#B;working@iMac-de-Amine.local
+	confs: [default]
+	found apache#A;201605128232300 in local
+	[201605128232300] apache#A;latest.integration
+	found apache#foo;1.0 in local
+downloading /Users/aminechagou/Documents/workspace/GoBot/ivy/test/triggers/ant-build/local/A/A.jar ...
+.. (0kB)
+.. (0kB)
+	[SUCCESSFUL ] apache#A;201605128232300!A.jar (2ms)
+downloading /Users/aminechagou/Documents/workspace/GoBot/ivy/test/triggers/ant-build/local/foo/foo.jar ...
+.. (0kB)
+	[SUCCESSFUL ] apache#foo;1.0!foo.jar (2ms)
+:: resolution report :: resolve 331ms :: artifacts dl 5ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      default     |   2   |   2   |   1   |   0   ||   2   |   2   |
+	---------------------------------------------------------------------
+
+:: problems summary ::
+:::: WARNINGS
+	impossible to put metadata file in cache: /Users/aminechagou/Documents/workspace/GoBot/ivy/test/triggers/ant-build/local/A/ivy.xml (working@local) (java.io.FileNotFoundException: /Users/aminechagou/Documents/workspace/GoBot/ivy/test/triggers/ant-build/cache/apache/A/ivy-201605128232300.xml.original (No such file or directory))
+
+
+:: USE VERBOSE OR DEBUG MESSAGE LEVEL FOR MORE DETAILS
+</pre>
+</body>
+</html>

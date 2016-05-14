@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<settings>
+	<gui>true</gui>
+	<horizon>1</horizon>
+	<samples>4000</samples>
+	<discount>1.0</discount>
+	<gui>true</gui>
+	<system>u_m</system>
+	<user>u_u</user>
+	<speech_user>s_u</speech_user>
+	<speech_system>s_m</speech_system>
+	<floor>floor</floor>
+	<discretisation>50</discretisation>
+	<recording>last</recording>
+	<timeout>400</timeout>
+	<botName>alice2</botName>
+	<ChatDomain>/Users/aminechagou/Documents/workspace/GoBot/opendial/domains/examples/PizzaBot_Chat.xml</ChatDomain>
+	<SellDomain>/Users/aminechagou/Documents/workspace/GoBot/opendial/domains/examples/PizzaBot_Sell.xml</SellDomain>
+	<botPath>/Users/aminechagou/Documents/workspace/GoBot/AIML Interpreter</botPath>
+</settings>
+
+

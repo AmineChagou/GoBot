@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="opendial.domains.RuleTest1" tests="7" skipped="0" failures="0" errors="0" timestamp="2016-05-04T00:10:07" hostname="iMac-de-Amine.local" time="0.234">
+  <properties/>
+  <testcase name="test1" classname="opendial.domains.RuleTest1" time="0.017"/>
+  <testcase name="test2" classname="opendial.domains.RuleTest1" time="0.025"/>
+  <testcase name="test3" classname="opendial.domains.RuleTest1" time="0.049"/>
+  <testcase name="test4" classname="opendial.domains.RuleTest1" time="0.024"/>
+  <testcase name="test5" classname="opendial.domains.RuleTest1" time="0.022"/>
+  <testcase name="test6" classname="opendial.domains.RuleTest1" time="0.054"/>
+  <testcase name="test7" classname="opendial.domains.RuleTest1" time="0.04"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

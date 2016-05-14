@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<domain>
+ 	 
+	<initialstate>
+
+		<!-- Starting prompt -->
+		<variable id="u_m">
+			<value>Hey my Friend !! Pizza Bot at your service (Chat Domain) !!</value>
+		</variable>
+		<variable id="a_m">
+			<value>Idle</value>
+		</variable>
+		
+		<!-- We start the dialogue on chat mode -->
+		<variable id="current_step">
+			<value>Chat</value>
+		</variable>
+	</initialstate>
+
+	<!-- Natural language understanding models first step understand the user utterance-->
+	<import href="PizzaBot_Chat_nlu.xml"/>
+
+	<!--  Dialogue management models (action selection and transition) second step update the system state -->
+	<import href="PizzaBot_Chat_dm.xml"/>
+
+	<!-- Natural language generation models  third step generate response-->
+	<import href="PizzaBot_Chat_nlg.xml"/>
+
+
+	<!-- External module showing how to interface the dialogue system with an external 
+	database -->
+	<settings>
+		<modules>opendial.modules.examples.ChatBot</modules>
+	</settings>
+	<settings>
+		<modules>opendial.modules.examples.DominosPizza</modules>
+	</settings>
+	<settings>
+		<modules>opendial.modules.examples.SpellCheckerModule</modules>
+	</settings>
+</domain>

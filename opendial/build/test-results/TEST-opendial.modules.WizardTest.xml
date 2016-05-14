@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="opendial.modules.WizardTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2016-05-04T00:10:18" hostname="iMac-de-Amine.local" time="0.845">
+  <properties/>
+  <testcase name="testWizardLearning" classname="opendial.modules.WizardTest" time="0.607"/>
+  <testcase name="testWizardControl" classname="opendial.modules.WizardTest" time="0.238"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[mai 04, 2016 2:10:18 AM opendial.DialogueSystem displayComment
+INFOS: Reward: 2
+mai 04, 2016 2:10:18 AM opendial.DialogueSystem displayComment
+INFOS: Reward: -10
+mai 04, 2016 2:10:18 AM opendial.DialogueSystem displayComment
+INFOS: Module WizardLearner successfully attached
+mai 04, 2016 2:10:18 AM opendial.DialogueSystem displayComment
+INFOS: Module WizardControl successfully attached
+]]></system-err>
+</testsuite>

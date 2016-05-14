@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain>
+	<!-- Natural language generation models. The domain can produce new system 
+		utterance either when the current step is changed, or when a new system action 
+		is selected. -->
+
+    <!--Chat,UserRequest,Recommand,UserChoice,ActivateSlaveBot,Resume!-->
+	<model trigger="current_step">
+		<!--Model producing new system utterances when the current step is moved 
+			to a new step. -->
+
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="Chat" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="Hi I am a Chatbot" />
+				</effect>
+			</case>
+		</rule>
+
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="UserRequest" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="How can I help you ?" />
+				</effect>
+			</case>
+		</rule>
+
+
+		<!--rule>
+			<case>
+				<condition>
+					<if var="current_step" value="askRecommandation" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="You can chat with my friends here {RecommandedBots} " />
+				</effect>
+			</case>
+		</rule-->
+
+
+	
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="Resume" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="Nice to see you again !! I hope my friend {choice} did a nice work " />
+				</effect>
+			</case>
+		</rule>
+
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="UserChoice" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="Which bot do yo want to ask ?" />
+					<set var="a_m" value="None" />
+				</effect>
+			</case>
+		</rule>
+
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="Close" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="Thank you for your time and welcome back!" />
+				</effect>
+			</case>
+		</rule>
+
+
+	</model>
+
+
+	<model trigger="a_m">
+		<!-- Model producing new system utterances related to the last system action -->
+
+		<!-- grounding the destination -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Ground(UserRequest,{UserReq}))" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="OK,you want to {UserReq}." />
+				</effect>
+			</case>
+		</rule>
+
+		<!-- confirmation request for the destination -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Confirm(UserRequest,{UserReq})" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="You want to {UserReq}. Is that correct?" />
+				</effect>
+			</case>
+		</rule>
+  	    <rule>
+			<case>
+				<condition>
+					<if var="a_m" value="ActivateSelectedBot" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="Great !! I let {choice} handle your request !" />
+				</effect>
+			</case>
+		</rule>
+
+
+		<!-- confirmation request for the destination -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Confirm(UserChoice,{choice})" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="You want to chat with {choice}. Is that correct?" />
+				</effect>
+			</case>
+		</rule>
+
+
+		<!-- repetition request -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="AskRepeat" />
+					<if var="current_step" value="UserChoice" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="Sorry, could you repeat? The available bots are {RecommandedBots}." />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="a_m" value="AskRepeat" />
+					<if var="current_step" value="UserRequest" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="Sorry, could you repeat? Please tell me how can I help you ?" />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="a_m-prev" value="AskRepeat" />
+					<if var="a_m" value="AskRepeat" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="Sorry I couldn't understand you. Could you please repeat one more time?" />
+				</effect>
+			</case>
+			<case>
+				<condition>
+					<if var="a_m" value="AskRepeat" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="Sorry, could you repeat?" />
+				</effect>
+			</case>
+		</rule>
+		<!-- bot response-->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="BotResponse({response})" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="{response}" />
+				</effect>
+			</case>
+		</rule>
+		<!-- Recommand bots -->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="AskUserChoice({RecommandedBots})" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="You can chat with my friends {RecommandedBots}" />
+				</effect>
+		</case>
+		
+		</rule>
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="Recommandation" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="I am looking for relevant bots to help you ..." />
+				</effect>
+			</case>
+		</rule>
+
+		<!--rule>
+			<case>
+				<condition>
+					<if var="a_m" value="activateSelectedBot" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="Great !! i let {choice} finish the job" />
+				</effect>
+			</case>
+		</rule-->
+	<!-- bot response-->
+		<rule>
+			<case>
+				<condition>
+					<if var="a_m" value="BotResponse({response})" />
+				</condition>
+				<effect util="1">
+					<set var="u_m" value="{response}" />
+				</effect>
+			</case>
+		</rule>
+
+		
+	</model>
+
+</domain>

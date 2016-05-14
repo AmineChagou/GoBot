@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="opendial.modules.RecordingTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2016-05-04T00:10:14" hostname="iMac-de-Amine.local" time="0.936">
+  <properties/>
+  <testcase name="testXML" classname="opendial.modules.RecordingTest" time="0.335"/>
+  <testcase name="testRecord" classname="opendial.modules.RecordingTest" time="0.601"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[mai 04, 2016 2:10:14 AM opendial.DialogueSystem displayComment
+INFOS: Module WizardLearner successfully attached
+]]></system-err>
+</testsuite>

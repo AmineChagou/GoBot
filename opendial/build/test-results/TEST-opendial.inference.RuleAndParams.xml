@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="opendial.inference.RuleAndParams" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-05-04T00:10:09" hostname="iMac-de-Amine.local" time="0.128">
+  <properties/>
+  <testcase name="RuleAndParamsTest" classname="opendial.inference.RuleAndParams" time="0.128"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="opendial.modules.SimulatorTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2016-05-04T00:10:15" hostname="iMac-de-Amine.local" time="2.811">
+  <properties/>
+  <testcase name="testSimulator" classname="opendial.modules.SimulatorTest" time="2.675"/>
+  <testcase name="testRewardLearner" classname="opendial.modules.SimulatorTest" time="0.136"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

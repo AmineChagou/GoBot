@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="opendial.modules.ImporterTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2016-05-04T00:10:12" hostname="iMac-de-Amine.local" time="1.696">
+  <properties/>
+  <testcase name="testImporter" classname="opendial.modules.ImporterTest" time="0.292"/>
+  <testcase name="testImporter2" classname="opendial.modules.ImporterTest" time="0.329"/>
+  <testcase name="testImporter3" classname="opendial.modules.ImporterTest" time="0.31"/>
+  <testcase name="testImporter4" classname="opendial.modules.ImporterTest" time="0.765"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[mai 04, 2016 2:10:12 AM opendial.DialogueSystem displayComment
+INFOS: Module ForwardPlanner successfully attached
+mai 04, 2016 2:10:12 AM opendial.DialogueSystem displayComment
+INFOS: Module WizardLearner successfully attached
+mai 04, 2016 2:10:13 AM opendial.DialogueSystem displayComment
+INFOS: Module ForwardPlanner successfully attached
+mai 04, 2016 2:10:13 AM opendial.DialogueSystem displayComment
+INFOS: Module WizardLearner successfully attached
+]]></system-err>
+</testsuite>
