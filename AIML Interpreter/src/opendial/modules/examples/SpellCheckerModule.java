@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import opendial.DialogueState;
 import opendial.DialogueSystem;
+import opendial.Settings;
 import opendial.modules.Module;
 import com.swabunga.spell.event.*;
 import com.swabunga.spell.engine.*;
@@ -57,11 +58,11 @@ public class SpellCheckerModule implements Module,SpellCheckListener {
 	public void trigger(DialogueState state, Collection<String> updatedVars) {
 		if (updatedVars.contains("u_u")) {
               
-		        String userUtterance = this.system.getContent("u_u").getBest().toString();     
+		        String userUtterance =  Settings.getActiveBot().getContent("u_u").getBest().toString();     
 			    misspelledWords = new ArrayList<String>();
 		        String userUtteranceCorrected=getCorrectedLine(userUtterance);
-		        this.system.addContent("u_u_c", userUtterance);
-		        String userUtterance2 = this.system.getContent("u_u").getBest().toString();     
+		        Settings.getActiveBot().addContent("u_u_c", userUtterance);
+		        String userUtterance2 = Settings.getActiveBot().getContent("u_u").getBest().toString();     
 		        System.out.println(userUtteranceCorrected);
 				
 		}

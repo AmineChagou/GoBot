@@ -918,7 +918,6 @@ MasterBotSettings
 		String masterBotSettings = "/Users/aminechagou/Documents/workspace/GoBot/opendial/resources/MasterBotSettings.xml";
 		String slaveBot1Settings = "/Users/aminechagou/Documents/workspace/GoBot/opendial/resources/SlaveBot1Settings.xml";
 		String slaveBot2Settings = "/Users/aminechagou/Documents/workspace/GoBot/opendial/resources/SlaveBot2Settings.xml";
-		log.info("Version 1.0.1");
 		Settings.settingFiles.put("masterBot",masterBotSettings);
 		Settings.settingFiles.put("AirFranceBot",slaveBot1Settings);
 		Settings.settingFiles.put("EasyJetBot",slaveBot1Settings);

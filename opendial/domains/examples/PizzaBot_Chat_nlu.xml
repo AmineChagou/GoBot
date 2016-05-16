@@ -35,10 +35,12 @@
 		<rule>
 			<case>
 				<condition>
-					<if var="u_u_c" relation="contains" value="(Quit|Bye|See you|GoodBye|Au revoir)" />
+					<if var="u_u_c" relation="contains" value="(bye|See you|GoodBye|Au revoir|Bye)" />
 				</condition>
 				<effect>
 					<set var="current_step" value="Quit"/>
+					<set var="a_m" value="Ground(Close)" />
+					<set var="a_u" value="DisableChat"/>
 				</effect>
 			</case>
 			</rule>	

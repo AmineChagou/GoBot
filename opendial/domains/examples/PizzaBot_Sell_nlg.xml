@@ -9,7 +9,7 @@
 		<!--Model producing new system utterances when the current step is moved 
 			to a new step. -->
 
-		<rule>
+		<!--rule>
 			<case>
 				<condition>
 					<if var="current_step" value="Chat" />
@@ -18,7 +18,7 @@
 					<set var="u_m" value="Hi i am a Pizza Bot at your service " />
 				</effect>
 			</case>
-		</rule>
+		</rule-->
 		<!-- Asks for the destination -->
 		<rule>
 			<case>
@@ -65,6 +65,18 @@
 					<set var="a_m" value="None" />
 				</effect>
 			</case>
+		</rule>	
+		<rule>
+			<case>
+				<condition>
+					<if var="current_step" value="DisplayPrice" />
+				</condition>
+				<effect util="1">
+					<set var="u_m"
+						value="A {PizzaChoice} for  {NbPersons} persons
+					cost {TotalPrice} EUR . Do you want me to order ?" />		
+				</effect>
+				</case>
 		</rule>
 		<!-- Asks for the last confirmation -->
 		<rule>
@@ -76,7 +88,7 @@
 				<effect util="1">
 					<set var="u_m"
 						value="You are ordering a {PizzaChoice} Pizza
-					for {NbPersons} persons, for a total cost of  EUR. 
+					for {NbPersons} persons, for a total cost of {TotalPrice}  EUR. 
 					Shall I confirm your order?" />
 				</effect>
 			</case>
@@ -88,7 +100,7 @@
 				<effect util="1">
 					<set var="u_m"
 						value="You are ordering a {PizzaChoice} Pizza and {WhichDrinks} 
-					for {NbPersons} persons, for a total cost of  EUR. 
+					for {NbPersons} persons, for a total cost of {TotalPrice} EUR. 
 					Shall I confirm your order?" />
 				</effect>
 			</case>
@@ -242,7 +254,7 @@
 				</effect>
 			</case>
 		</rule>
-		<!-- Making a price offer -->
+		<!-- Making a price offer
 		<rule>
 			<case>
 				<condition>
@@ -266,7 +278,7 @@
 				</effect>
 			</case>
 		</rule>
-
+	   -->
 		<!-- Grounding the cancellation -->
 		<rule>
 			<case>

@@ -10,7 +10,7 @@
 		
 		<!-- We start the dialogue on chat mode -->
 		<variable id="current_step">
-			<value>PizzaChoice</value>
+			<value>Chat</value>
 		</variable>
 		<variable id="chatBot">
 			<value>1</value>

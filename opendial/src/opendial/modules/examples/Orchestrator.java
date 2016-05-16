@@ -95,7 +95,7 @@ public class Orchestrator implements Module {
 					DialogueSystem slaveBot = new DialogueSystem(Settings.settingFiles.get(selectedBot),true);
 					slaveBot.getSettings().fillSettings(System.getProperties());
 					Domain domain;
-					String domainFile    = slaveBot.getSettings().domains.get("Chat");
+					String domainFile    = slaveBot.getSettings().domains.get("Sell");
 					domain = XMLDomainReader.extractDomain(domainFile);
 					log.info("Domain from " + domainFile + " successfully extracted");
 					slaveBot.changeDomain(domain);
@@ -109,7 +109,7 @@ public class Orchestrator implements Module {
 				//  Starting active bot 
 				Settings.getActiveBot().startSystem();
 				
-				//Settings.getActiveBot().addContent("u_u_c", userRequest);
+				Settings.getActiveBot().addContent("u_u_c", userRequest);
 				String info = selectedBot + " : hi i am activated :)";
 				log.fine(info);	
 
@@ -122,7 +122,7 @@ public class Orchestrator implements Module {
 				String topic = Settings.topicMap.get(userRequest);
 				String recommandedBots=Settings.recommandationMap.get(topic);
 				String newAction = "AskUserChoice(" + recommandedBots + ")";
-				system.addContent("a_m", newAction);
+				Settings.getActiveBot().addContent("a_m", newAction);
 				String info =  "recommanded bots" + recommandedBots;
 				log.fine(info);			
 			}

@@ -78,17 +78,17 @@ public class DominosPizza implements Module {
 				
 				int Price = 30;
 				String newAction = "DisplayPrice(" + Price + ")";
-				system.addContent("a_m", newAction);
+				Settings.getActiveBot().addContent("a_m", newAction);
 			}
 			else if (action.equals("Order")) {
 
 				
 				// load Form and initialize with user information (delivery adress + payment information + items + phone number)
 				// display form 
-				String pizzaChoice = state.queryProb("Departure").getBest().toString();
+				String pizzaChoice = state.queryProb("choice").getBest().toString();
 				String drinks =
-						state.queryProb("Destination").getBest().toString();
-				String nbpersons = state.queryProb("NbTickets").getBest().toString();
+						state.queryProb("Drinks").getBest().toString();
+				String nbpersons = state.queryProb("NbPersons").getBest().toString();
 
 				// In a real system, the system database should be modified here
 				// to
@@ -98,12 +98,17 @@ public class DominosPizza implements Module {
 						+ " for " + nbpersons + " persons " ;
 				log.fine(info);
 			}else if (action.equals("Close")) {
+				String newAction = "None";
+				Settings.getActiveBot().addContent("a_m", newAction);		
 				Settings.activeBot = "masterBot";
 				//  Starting active bot 
-				Settings.getActiveBot().startSystem();
-				String newAction = "ResumeDialogue";
-				system.addContent("a_m", newAction);
-				
+				/*String domainFile    = Settings.getActiveBot().getSettings().domains.get("Chat");
+				Domain domain = XMLDomainReader.extractDomain(domainFile);
+				log.info("Domain from " + domainFile + " successfully extracted");
+				Settings.getActiveBot().changeDomain(domain);
+				Settings.getActiveBot().startSystem();*/
+				newAction = "ResumeDialogue";
+				Settings.getActiveBot().addContent("a_m", newAction);				
 			}
 
 		}

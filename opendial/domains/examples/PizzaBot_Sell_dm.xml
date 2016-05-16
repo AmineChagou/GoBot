@@ -334,6 +334,9 @@
 					<set var="NbPersons" value="None" />
 					<set var="TotalCost" value="None" />
 					<set var="a_u" value="None" />
+					<set var="u_u_c" value="None" />
+					<set var="u_u_c_c" value="None" />
+					<set var="PizzaChoice" value="None" />	
 				</effect>
 			</case>
 			<case>
@@ -359,7 +362,7 @@
 				</condition>
 				<effect>
 					<set var="current_step" value="DisplayPrice" />
-					<set var="a_u" value="Inform(TotalPrice,{Price})" exclusive="false"/>
+					<set var="TotalPrice" value="{Price}"/>
 				</effect>
 			</case>
 	</rule>

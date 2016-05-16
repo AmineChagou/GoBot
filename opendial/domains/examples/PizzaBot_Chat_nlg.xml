@@ -9,7 +9,7 @@
 		<!--Model producing new system utterances when the current step is moved 
 			to a new step. -->
 
-		<rule>
+		<!--rule>
 			<case>
 				<condition>
 					<if var="current_step" value="Chat" />
@@ -18,7 +18,7 @@
 					<set var="u_m" value="Hi i am a Pizza Bot at your service " />
 				</effect>
 			</case>
-		</rule>
+		</rule-->
 
 	
 
